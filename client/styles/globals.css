@@ -25,6 +25,7 @@ div {
   text-align: center;
   margin: 5px;
   background-color: rgb(56, 56, 56);
+  cursor: pointer;
 }
 
 .crypto:hover {
