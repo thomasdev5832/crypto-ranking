@@ -29,7 +29,32 @@ criptos = [
     {
         'id': 5,
         'nome': 'Dogecoin',
-        'votos': 1
+        'votos': 99
+    },
+    {
+        'id': 6,
+        'nome': 'Cardano',
+        'votos': 9
+    },
+    {
+        'id': 7,
+        'nome': 'BNB',
+        'votos': 37
+    },
+    {
+        'id': 8,
+        'nome': 'Litecoin',
+        'votos': 17
+    },
+    {
+        'id': 9,
+        'nome': 'Chainlink',
+        'votos': 21
+    },
+    {
+        'id': 10,
+        'nome': 'Wrapped Bitcoin',
+        'votos': 13
     }
 ]
 
@@ -44,9 +69,10 @@ def return_home():
     })
 
 # Listar todas criptos
-@app.route('/criptos/', methods=['GET'])
-def obter_criptos():
+@app.route('/', methods=['GET'])
+def listar_criptos():
     return jsonify(criptos)
+
 
 # consultar (id)
 @app.route('/criptos/<int:id>', methods=['GET'])

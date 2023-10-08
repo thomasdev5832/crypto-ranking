@@ -1,34 +1,59 @@
 import React, { useEffect, useState } from 'react'
 
 function index() {
-  const [message, setMessage] = useState("Loading");
-  const [cryptos, setCryptos] = useState([]);
 
-  // Faz uma requisição HTTP GET para a URL 
+  const [data, setData] = useState([] as any[]);
+  let ranking = 1;
+
   useEffect(() => {
-    fetch("http://localhost:8080/api/home")
-    .then((response) => response.json())
-    .then((data) => {
-      // atualiza o estado do component
-        setMessage(data.message);
-        setCryptos(data.cryptos);
-      });
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/');
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
-    <div>
-      <h2>{message}</h2>
-      {
-      // --- Renderização de listas ---
-      // a função map percorre cada elemento do array de cryptos
-      // para cada elemento, uma nova div é renderizada
-        cryptos.map((crypto, index) => (
-          <div className='crypto' key={index}>
-            {crypto}
-          </div>
-        ))
-      }
-    </div>
+    <div className='main'>
+    <h2 className="font-bold">Qual sua criptomoeda favorita?</h2>
+    
+    {data ? (
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th className="font-bold">Ranking</th>
+              <th className="font-bold">Nome</th>
+              <th className="font-bold">Votos</th>
+              <th className="font-bold"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {data
+              .sort((a, b) => b.votos - a.votos)
+              .map((item, index) => (
+                <tr key={index}>
+                  <td className="ranking-container font-medium">{ranking++}</td>
+                  <td className="nome-container font-medium">{item.nome}</td>
+                  <td className="voto-container font-bold">{item.votos}</td>
+                  <td className="">
+                    <button><div className='btn-icon'><img src="https://noxbitcoin.com.br/wp-content/themes/nox/img/icon-lighting-black.svg" alt="" /></div>Votar</button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <p>Carregando dados...</p>
+    )}
+  </div>
   )
 }
 

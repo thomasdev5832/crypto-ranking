@@ -2,32 +2,95 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  margin: 0 auto;
-  padding: 0;
-  background-color: rgb(39, 39, 39);
-  color: white;
+body {
+  background-color: #ffffff;
+  color: #1f1f20;
 }
 
-h2 {
-  font-size: 20px;
-  margin: 10px;
-}
-
-div {
+.main {
   display: flex;
   flex-direction: column;
   text-align: center;
+  background-color: #ffffff;
+  
 }
 
-.crypto {
-  padding: .2em;
-  text-align: center;
-  margin: 5px;
-  background-color: rgb(56, 56, 56);
+table {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+
+h2 {
+  font-size: 24px;
+  margin: 1em;
+}
+
+th {
+ background-color: red;
+ width: 100%;
+}
+
+tr {
+  align-items: center;
+  width: 100%;
+  color: #1f1f20;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #fcd400;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color transform .2s ease-in-out;
 }
 
-.crypto:hover {
-  background-color: rgb(32, 32, 32);
+tr:hover {
+ /* transition: cubic-bezier( 0.07, 1.40, .80, 1.40) 0.2s;
+  transform: scale(1.01); */
+  background-color: #efefef;
+ /* box-shadow: 0 0 10px #dcdcdc; */
 }
+
+td {
+  flex-direction: row;
+  align-items: center;
+}
+
+button {
+  font-weight: 600;
+  background-color: #ffd700;
+  color: #131425;
+  font-weight: 600;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 2px solid #ffd700;
+  cursor: pointer;
+  transition: .3s;
+  margin: 3px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  gap: .3em;
+}
+
+button:hover {
+  box-shadow: 0 0 20px #f7f7f7;
+  background-color: #fcfbfc;
+}
+
+.voto-container {
+  padding-right: 1em;
+}
+
+.nome-container {
+  padding-left: 1em;
+  text-align: left;
+}
+
+.ranking-container {
+  padding-left: 1em;
+  justify-content: flex-start;
+}
+
