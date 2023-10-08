@@ -21,17 +21,17 @@ function index() {
 
   return (
     <div className='main'>
-    <h2 className="font-bold">Qual sua criptomoeda favorita?</h2>
+    <h1 className="font-bold">Qual sua criptomoeda favorita?</h1>
     
     {data ? (
-      <div>
-        <table>
+      <div className='container'>
+        <table className='custom-table'>
           <thead>
             <tr>
               <th className="font-bold">Ranking</th>
               <th className="font-bold">Nome</th>
               <th className="font-bold">Votos</th>
-              <th className="font-bold"></th>
+              <th className=""></th>
             </tr>
           </thead>
           <tbody>

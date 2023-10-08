@@ -10,32 +10,47 @@ body {
 .main {
   display: flex;
   flex-direction: column;
+  align-items: center;
   text-align: center;
   background-color: #ffffff;
-  
+}
+
+.container {
+  width: 100%;
+  margin: auto;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 1em;
 }
 
 table {
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 100%;
+  background-color: #fff;
+  padding: 1em;
 }
 
-
-h2 {
-  font-size: 24px;
-  margin: 1em;
+thead th {
+  padding: 1em;
+  align-items: left;
+  color: #1f1f20;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #fcd400;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color transform .2s ease-in-out;
 }
 
-th {
- background-color: red;
- width: 100%;
+thead tr {
+  
 }
 
 tr {
   align-items: center;
-  width: 100%;
   color: #1f1f20;
   background-color: #ffffff;
   margin-bottom: 10px;
