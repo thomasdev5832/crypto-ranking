@@ -8,7 +8,7 @@ function index() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/');
+        const response = await fetch('http://localhost:8080/criptos/');
         const jsonData = await response.json();
         setData(jsonData);
       } catch (error) {

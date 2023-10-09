@@ -58,23 +58,22 @@ criptos = [
     }
 ]
 
-# app route to home
-# methods=['GET'] -> aceita apenas método GET
-# retorna um json
-@app.route("/api/home", methods=['GET'])
-def return_home():
-    return jsonify({
-        'message': "Qual sua crypto favorita?",
-        'cryptos': ['Bitcoin', 'Ethereum', 'Polkadot', 'Cardano', 'Solana', 'Dogecoin']
-    })
+
 
 # Listar todas criptos
-@app.route('/', methods=['GET'])
+@app.route('/criptos/', methods=['GET'])
 def listar_criptos():
     return jsonify(criptos)
 
+# Adicionar um voto pelo ID
+@app.route('/criptos/votar/<int:id>', methods=['POST'])
+def adicionar_voto(id):
+    for cripto in criptos:
+        if cripto.get('id') == id:
+            cripto['votos'] += 1
+            return jsonify(cripto['votos'])
 
-# consultar (id)
+# consultar cripto pelo ID
 @app.route('/criptos/<int:id>', methods=['GET'])
 def obter_cripto_por_id(id):
     for cripto in criptos:
