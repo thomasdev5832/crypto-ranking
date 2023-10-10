@@ -19,119 +19,113 @@ cursor.execute('''
     )
 ''')
 
-# Função para inserir um novo dado no banco de dados
-def gravar_cripto(id, nome, votos):
-    cursor.execute('''
-        INSERT INTO criptos (id, nome, votos)
-        VALUES (?, ?, ?)
-    ''', (id, nome, votos))
-    conn.commit()
-
-# Função para recuperar todos os dados do banco de dados
-def obter_criptos():
-    cursor.execute('''
-        SELECT * FROM criptos
-    ''')
-    return cursor.fetchall()
-
-def adicionar_voto_por_id(id):
-    cursor.execute('''
-        UPDATE dados
-        SET votos = votos + 1
-        WHERE id = ?
-    ''', (id,))
-    conn.commit()
-
 # app instance
 app = Flask(__name__)
 CORS(app)
 
-criptos = [
-    {
-        'id': 1,
-        'nome': 'Bitcoin',
-        'votos': 100
-    },
-    {
-        'id': 2,
-        'nome': 'Ethereum',
-        'votos': 50
-    },
-    {
-        'id': 3,
-        'nome': 'Polkadot',
-        'votos': 20
-    },
-    {
-        'id': 4,
-        'nome': 'Solana',
-        'votos': 10
-    },
-    {
-        'id': 5,
-        'nome': 'Dogecoin',
-        'votos': 99
-    },
-    {
-        'id': 6,
-        'nome': 'Cardano',
-        'votos': 9
-    },
-    {
-        'id': 7,
-        'nome': 'BNB',
-        'votos': 37
-    },
-    {
-        'id': 8,
-        'nome': 'Litecoin',
-        'votos': 17
-    },
-    {
-        'id': 9,
-        'nome': 'Chainlink',
-        'votos': 21
-    },
-    {
-        'id': 10,
-        'nome': 'Wrapped Bitcoin',
-        'votos': 13
-    }
-]
+# Função para criar a tabela e adicionar dados
+def criar_tabela_e_adicionar_dados():
+    # Conectar ao banco de dados (ou criar se não existir)
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
 
+    # Criar a tabela se ainda não existir
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS criptos (
+            id INTEGER PRIMARY KEY,
+            nome TEXT,
+            votos INTEGER
+        )
+    ''')
 
+    # Adicionar dados na tabela
+    criptos = [
+        {'id': 1, 'nome': 'Bitcoin', 'votos': 100},
+        {'id': 2, 'nome': 'Ethereum', 'votos': 50},
+        {'id': 3, 'nome': 'Polkadot', 'votos': 25},
+        {'id': 4, 'nome': 'Solana', 'votos': 10},
+        {'id': 5, 'nome': 'Dogecoin', 'votos': 99},
+        {'id': 6, 'nome': 'Cardano', 'votos': 5},
+        {'id': 7, 'nome': 'BNB', 'votos': 30},
+        {'id': 8, 'nome': 'Litecoin', 'votos': 15},
+        {'id': 9, 'nome': 'Chainlink', 'votos': 45},
+        {'id': 10, 'nome': 'Wrapped Bitcoin', 'votos': 20}
+    ]
 
-# Listar todas criptos
+    # iteração para INSERIR os vlores na tabela criptos
+    for cripto in criptos:
+        cursor.execute('''
+            INSERT OR IGNORE INTO criptos (id, nome, votos)
+            VALUES (?, ?, ?)
+        ''', (cripto['id'], cripto['nome'], cripto['votos']))
+
+    # Commit para salvar as alterações
+    conn.commit()
+
+    # Fechar a conexão
+    conn.close()
+
+# Chamar a função para criar a tabela e adicionar dados
+criar_tabela_e_adicionar_dados()
+
+# Função para listar todas as criptos do banco de dados
 @app.route('/criptos/', methods=['GET'])
 def listar_criptos():
-    return jsonify(criptos)
+    # Conectar ao banco de dados
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
 
-# Adicionar um voto pelo ID
+    # Executar a consulta para obter todos os registros da tabela criptos
+    cursor.execute('''
+        SELECT * FROM criptos
+    ''')
+
+    # Buscar todos os resultados da consulta
+    criptos_from_db = cursor.fetchall()
+
+    # Fechar a conexão
+    conn.close()
+
+    # Transformar os resultados em uma lista de dicionários
+    criptos_list = [{'id': row[0], 'nome': row[1], 'votos': row[2]} for row in criptos_from_db]
+
+    # Retornar os dados como resposta JSON
+    return jsonify(criptos_list)
+
+# Função para adicionar um voto pelo ID no banco de dados
 @app.route('/criptos/votar/<int:id>', methods=['POST'])
 def adicionar_voto(id):
-    for cripto in criptos:
-        if cripto.get('id') == id:
-            cripto['votos'] += 1
-            return jsonify(cripto['votos'])
+    # Conectar ao banco de dados
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
 
-# consultar cripto pelo ID
-@app.route('/criptos/<int:id>', methods=['GET'])
-def obter_cripto_por_id(id):
-    for cripto in criptos:
-        if cripto.get('id') == id:
-            return jsonify(cripto)
+    # Verificar se o ID existe na tabela criptos
+    cursor.execute('''
+        SELECT * FROM criptos WHERE id = ?
+    ''', (id,))
 
-# editar (id)
-@app.route('/criptos/<int:id>', methods=['PUT'])
-def editar_cripto_por_id(id):
-    # request.get_json() -> retorna as informações que foram enviadas do usuario para API
-    cripto_alterada = request.get_json()
-    # necessario saber o indice e o id da cripto a ser alterada
-    # iterar 
-    for indice, cripto in enumerate(criptos):
-        if cripto.get('id') == id:
-            criptos[indice].update(cripto_alterada)
-            return jsonify(criptos[indice])
+    cripto = cursor.fetchone()
+
+    if cripto is not None:
+        # Atualizar o número de votos no banco de dados
+        cursor.execute('''
+            UPDATE criptos
+            SET votos = votos + 1
+            WHERE id = ?
+        ''', (id,))
+
+        # Commit para salvar as alterações
+        conn.commit()
+
+        # Fechar a conexão
+        conn.close()
+
+        # Retornar o número de votos atualizado
+        return jsonify({'votos': cripto[2] + 1})
+    else:
+        # ID não encontrado
+        return jsonify({'error': 'ID não encontrado'}), 404
+
 
 
 if __name__ == "__main__":
