@@ -1,6 +1,47 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
+# Importa o modulo do SQLite
+import sqlite3
+
+# Conecta ao banco de dados (ou cria um novo banco de dados se ele não existir)
+conn = sqlite3.connect('database.db')
+
+# Cria um cursor para executar comandos SQL
+cursor = conn.cursor()
+
+# Cria uma tabela para armazenar os dados
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS criptos (
+        id INTEGER PRIMARY KEY,
+        nome TEXT,
+        votos INTEGER
+    )
+''')
+
+# Função para inserir um novo dado no banco de dados
+def gravar_cripto(id, nome, votos):
+    cursor.execute('''
+        INSERT INTO criptos (id, nome, votos)
+        VALUES (?, ?, ?)
+    ''', (id, nome, votos))
+    conn.commit()
+
+# Função para recuperar todos os dados do banco de dados
+def obter_criptos():
+    cursor.execute('''
+        SELECT * FROM criptos
+    ''')
+    return cursor.fetchall()
+
+def adicionar_voto_por_id(id):
+    cursor.execute('''
+        UPDATE dados
+        SET votos = votos + 1
+        WHERE id = ?
+    ''', (id,))
+    conn.commit()
+
 # app instance
 app = Flask(__name__)
 CORS(app)
