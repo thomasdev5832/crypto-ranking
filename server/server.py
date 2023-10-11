@@ -130,4 +130,4 @@ def adicionar_voto(id):
 
 if __name__ == "__main__":
     # inicia o server aceitando requisições http
-    app.run(debug=True, port=8080)
+    app.run()
