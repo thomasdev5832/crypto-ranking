@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-function index() {
+function Index() {
 
   const [data, setData] = useState([] as any[]);
   let ranking = 1;
@@ -92,4 +92,4 @@ function index() {
   )
 }
 
-export default index
+export default Index
