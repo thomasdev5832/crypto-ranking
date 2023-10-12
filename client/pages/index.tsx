@@ -8,7 +8,7 @@ function index() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/criptos/');
+        const response = await fetch('https://api-ranking-ad031a8852b1.herokuapp.com/api/criptos/');
         const jsonData = await response.json();
         setData(jsonData);
       } catch (error) {
@@ -21,7 +21,7 @@ function index() {
 
   const handleVote = async (criptoId: number) => {
     try {
-      const response = await fetch(`http://localhost:8080/criptos/votar/${criptoId}`, {
+      const response = await fetch(`https://api-ranking-ad031a8852b1.herokuapp.com/api/criptos/votar/${criptoId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Configura o tipo de conteúdo para JSON
