@@ -27,7 +27,7 @@
 - [Instalação](#instalacao)
 - [Execução](#execucao)
 - [Funcionalidades](#funcionalidades)
-- [Configuração da API](#funcionalidades)
+- [Configurações da API](#funcionalidades)
 - [Stack(tecnologias)](#stack)
 
 ### 🏁 Intro <a name = "intro"></a>
@@ -50,7 +50,7 @@ git clone https://github.com/thomasdev5832/crypto-ranking
 
 2. Navegue até o diretório do projeto:
 ```
-cd cryptoranking/client
+cd crypto-ranking/client
 ```
 
 3. Instale as dependências:
@@ -75,12 +75,12 @@ npm run dev
 
 - **Classificação por Votos**: As criptomoedas são classificadas com base no número de votos.
 
-### Configuração da API <a name="configuracao-da-api"></a>
+### Configurações da API <a name="configuracao-da-api"></a>
 A URL da API está definida nas funções **fetchData** e **handleVote** no arquivo **pages/index.tsx**. 
 
 Certifique-se de ajustar conforme necessário.
 
-Para mais informações sobre API, visite: [Crypto Ranking API](https://github.com/thomasdev5832/api-ranking#recursos)
+Para mais informações sobre API, visite o repositório: [Crypto Ranking API](https://github.com/thomasdev5832/api-ranking#recursos)
 
 ### Contribuição <a name="contribuicao"></a>
 Sinta-se à vontade para contribuir para este projeto enviando pull requests.
