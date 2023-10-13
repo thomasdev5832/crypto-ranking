@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react'
 
 function Index() {
 
+  // armazena os dados das criptomoedas
   const [data, setData] = useState([] as any[]);
-  let ranking = 1;
+  let ranking = 1; // define o ranking localmente
 
+  // buscar os dados da API 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // requisição à API 
         const response = await fetch('https://api-ranking-ad031a8852b1.herokuapp.com/api/criptos/');
+        // converte a resposta em json e atualiza o estado
         const jsonData = await response.json();
         setData(jsonData);
       } catch (error) {
@@ -19,8 +23,10 @@ function Index() {
     fetchData();
   }, []);
 
+  // votar em uma criptomoeda
   const handleVote = async (criptoId: number) => {
     try {
+      // Faz a requisição para registrar o voto na API
       const response = await fetch(`https://api-ranking-ad031a8852b1.herokuapp.com/api/criptos/votar/${criptoId}`, {
         method: 'POST',
         headers: {
@@ -30,11 +36,12 @@ function Index() {
         // body: JSON.stringify({ key: 'value' }),
       });
   
+      // verifica se a requisição está ok
       if (!response.ok) {
         throw new Error(`Erro na solicitação: ${response.status} - ${response.statusText}`);
       }
   
-      // Atualiza os dados depois do voto
+      // Atualiza os dados LOCALMENTE depois do voto
       const updatedData = [...data];
       const votedItemIndex = updatedData.findIndex((item) => item.id === criptoId);
       if (votedItemIndex !== -1) {
@@ -42,7 +49,7 @@ function Index() {
         setData(updatedData);
       }
   
-      console.log('Voto registrado com sucesso:', await response.json());
+      // console.log('Voto registrado com sucesso:', await response.json());
       // alert('Parabéns! Voto realizado com sucesso!');
     } catch (error: any) {
       console.error('Erro ao enviar voto:', error.message);
