@@ -47,7 +47,7 @@ const Index = () => {
         updatedData[votedItemIndex].votos += 1;
         setData(updatedData);
       }
-      alert('Parabéns! Voto realizado com sucesso!');
+      // alert('Parabéns! Voto realizado com sucesso!');
     } catch (error: any) {
       console.error('Erro ao enviar voto:', error.message);
     }
@@ -56,7 +56,7 @@ const Index = () => {
   return (
     <div className='main'>
       <h1 className="font-bold">Qual sua criptomoeda favorita?</h1>
-      {/* Renderizando o componente CryptoList e passando as propriedades 'data' e 'handleVote' */}
+      {/* Renderiza o componente CryptoList passando 'data' e 'handleVote' como parametros*/}
       {data ? <CryptoList data={data} handleVote={handleVote} /> : <p>Carregando dados...</p>}
     </div>
   );
